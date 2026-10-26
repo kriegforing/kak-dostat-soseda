@@ -1,0 +1,1249 @@
+@font-face {
+  font-family: 'PT Root UI';
+  src: url('../fonts/PT-Root-UI_Regular.woff2') format('woff2');
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'PT Root UI';
+  src: url('../fonts/PT-Root-UI_Medium.woff2') format('woff2');
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: 'PT Root UI';
+  src: url('../fonts/PT-Root-UI_Bold.woff2') format('woff2');
+  font-weight: 700;
+}
+
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --dark-grey: #262626;
+  --medium-grey: #8d8d8d;
+  --grey: #c5c5c5;
+  --dark-green: #00ff29;
+  --acid-green: #79ff39;
+  --background-grey: #2d2d2d;
+  --background-dark-grey: #232323;
+  --text-grey: #e1e1e1;
+  --alarm: #ff5a36;
+  --wallpaper: #a6a6a6;
+  --concrete: #4f4f4f;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 28px 20px 32px;
+  font-family: 'PT Root UI', Helvetica, Arial, sans-serif;
+  background-color: var(--medium-grey);
+  color: var(--dark-grey);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--acid-green);
+  outline-offset: 3px;
+}
+
+/* Заголовок */
+
+.Top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 48px;
+  max-width: 1180px;
+  margin: 0 auto 24px;
+}
+
+.Title {
+  max-width: 500px;
+}
+
+h1 {
+  font-size: 48px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.Title p {
+  margin-top: 12px;
+  font-size: 17px;
+  line-height: 1.45;
+}
+
+/* Дом */
+
+.Building {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Сосед сверху */
+
+.Upstairs {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 48px;
+  height: 190px;
+  padding: 0 32px 0 96px;
+  background-color: var(--wallpaper);
+  background-image: repeating-linear-gradient(90deg, transparent 0 22px, rgba(255, 255, 255, 0.08) 22px 26px);
+}
+
+.upWindow {
+  position: absolute;
+  left: 340px;
+  top: 22px;
+  width: 150px;
+  height: 92px;
+  border: 6px solid var(--text-grey);
+  background: linear-gradient(var(--text-grey), var(--text-grey)) center / 4px 100% no-repeat, #d3d8dc;
+}
+
+.NeighborSpot {
+  position: relative;
+  flex: none;
+  width: 320px;
+  height: 150px;
+}
+
+.Neighbor {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.pose {
+  display: none;
+}
+
+.Upstairs[data-state='sleep'] .poseSleep,
+.Upstairs[data-state='sit'] .poseSit,
+.Upstairs[data-state='stand'] .poseStand,
+.Upstairs[data-state='drill'] .poseDrill {
+  display: inline;
+}
+
+.broom,
+.hisDrill {
+  transform-box: fill-box;
+  transform-origin: top center;
+}
+
+.Upstairs.isKnocking .broom {
+  animation: broom 220ms ease-out;
+}
+
+.Upstairs.isDrilling .hisDrill {
+  animation: shake 70ms linear infinite;
+}
+
+@keyframes broom {
+  0% {
+    transform: rotate(-14deg) translateY(-8px);
+  }
+  40% {
+    transform: rotate(0) translateY(0);
+  }
+}
+
+.bubble {
+  position: absolute;
+  z-index: 3;
+  left: 22px;
+  top: 30px;
+  padding: 6px 12px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+  background-color: var(--white);
+}
+
+.bubble::after {
+  content: '';
+  position: absolute;
+  left: 18px;
+  bottom: -6px;
+  width: 12px;
+  height: 12px;
+  transform: rotate(45deg);
+  background-color: inherit;
+}
+
+.bubble[hidden] {
+  display: none;
+}
+
+.Upstairs[data-state='sit'] .bubble {
+  left: 130px;
+  top: -10px;
+}
+
+.Upstairs[data-state='stand'] .bubble,
+.Upstairs[data-state='drill'] .bubble {
+  left: 196px;
+  top: -34px;
+  color: var(--white);
+  background-color: var(--alarm);
+}
+
+/* Двери */
+
+.Door {
+  position: relative;
+  flex: none;
+  width: 130px;
+  height: 236px;
+  border: 6px solid #5c5c5c;
+  border-bottom: none;
+  background-color: #1c1c1c;
+  perspective: 500px;
+}
+
+.Door.isSmall {
+  width: 104px;
+  height: 160px;
+  margin-left: auto;
+}
+
+.leaf {
+  position: absolute;
+  inset: 0;
+  background-color: #bdbdbd;
+  transform-origin: left center;
+  transition: transform 600ms ease;
+}
+
+.leaf::before {
+  content: '';
+  position: absolute;
+  right: 14px;
+  top: 52%;
+  width: 18px;
+  height: 6px;
+  border-radius: 3px;
+  background-color: var(--dark-grey);
+}
+
+.leaf::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 28%;
+  width: 8px;
+  height: 8px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background-color: #5c5c5c;
+}
+
+.Door.isOpen .leaf {
+  transform: rotateY(-72deg);
+}
+
+.Door.isRinging .leaf {
+  animation: shake 80ms linear 6;
+}
+
+/* Перекрытие */
+
+.Slab {
+  position: relative;
+  height: 30px;
+  background-color: var(--concrete);
+  background-image: radial-gradient(rgba(0, 0, 0, 0.25) 1px, transparent 1.6px);
+  background-size: 7px 7px;
+}
+
+.crackSvg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.crack {
+  fill: none;
+  stroke: #1c1c1c;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  transition: stroke-dashoffset 400ms ease, stroke 300ms;
+}
+
+.crack.isAngry {
+  stroke: var(--alarm);
+}
+
+.crack.isFlashing {
+  stroke: var(--white);
+  transition: none;
+}
+
+/* Наша квартира */
+
+.Home {
+  position: relative;
+}
+
+.Home.isKnocking {
+  animation: knock 220ms ease-out;
+}
+
+@keyframes knock {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(4px);
+  }
+}
+
+.Home.isMuted::after {
+  content: '';
+  position: absolute;
+  z-index: 5;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.WallTop {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  height: 204px;
+  padding: 0 32px 14px 96px;
+  background-color: var(--grey);
+}
+
+.WallBottom {
+  display: flex;
+  align-items: flex-end;
+  gap: 32px;
+  padding: 36px 32px 0 96px;
+  background-color: var(--background-grey);
+  border-bottom: 24px solid var(--background-dark-grey);
+}
+
+.keyHint {
+  min-width: 24px;
+  margin-top: 6px;
+  padding: 2px 6px;
+  font-size: 12px;
+  line-height: 1.2;
+  text-align: center;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  color: #4a4a4a;
+}
+
+.WallBottom .keyHint {
+  color: var(--text-grey);
+}
+
+/* Сковородки */
+
+.Pans {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  align-items: flex-end;
+  justify-content: space-around;
+}
+
+.Pan {
+  --s: calc(var(--size) * var(--k, 1));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.panBody {
+  position: relative;
+  width: var(--s);
+  height: var(--s);
+  margin: calc(var(--s) * 0.5) calc(var(--s) * 0.3) calc(var(--s) * 0.16);
+  border-radius: 50%;
+  background-color: var(--dark-grey);
+  box-shadow: inset 0 0 0 calc(var(--s) * 0.08) #3d3d3d;
+  cursor: grab;
+  touch-action: none;
+  transition: box-shadow 300ms;
+}
+
+.panBody:active {
+  cursor: grabbing;
+}
+
+.panBody.isHit {
+  box-shadow: inset 0 0 0 calc(var(--s) * 0.08) var(--acid-green);
+  transition: none;
+}
+
+.panHandle {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 4px);
+  width: calc(var(--s) * 0.13);
+  height: calc(var(--s) * 0.46);
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background-color: var(--dark-grey);
+}
+
+.panHandle::after {
+  content: '';
+  position: absolute;
+  top: calc(var(--s) * 0.04);
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background-color: var(--acid-green);
+}
+
+.panTitle {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.WallTop :focus-visible {
+  outline-color: var(--black);
+}
+
+/* Перфоратор */
+
+.Shelf {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  width: 190px;
+}
+
+.Drill {
+  position: relative;
+  width: 150px;
+  height: 66px;
+  touch-action: none;
+}
+
+.Drill span {
+  position: absolute;
+  display: block;
+}
+
+.drillBody {
+  left: 14px;
+  top: 6px;
+  width: 98px;
+  height: 30px;
+  border-radius: 14px 6px 6px 14px;
+  background-color: var(--text-grey);
+}
+
+.drillGrip {
+  left: 46px;
+  top: 30px;
+  width: 26px;
+  height: 36px;
+  border-radius: 0 0 6px 6px;
+  background-color: var(--dark-grey);
+}
+
+.drillChuck {
+  left: 112px;
+  top: 13px;
+  width: 14px;
+  height: 16px;
+  border-radius: 3px;
+  background-color: #5c5c5c;
+}
+
+.drillBit {
+  left: 126px;
+  top: 19px;
+  width: 24px;
+  height: 4px;
+  background-color: var(--dark-grey);
+}
+
+.Drill.isOn {
+  animation: shake 60ms linear infinite;
+}
+
+.Drill.isOn .drillBody {
+  background-color: var(--acid-green);
+}
+
+.plank {
+  width: 190px;
+  height: 10px;
+  border-radius: 2px;
+  background-color: #5c5c5c;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(0, 0) rotate(0);
+  }
+  25% {
+    transform: translate(1px, -1px) rotate(0.6deg);
+  }
+  50% {
+    transform: translate(-1px, 1px) rotate(-0.6deg);
+  }
+  75% {
+    transform: translate(1px, 1px) rotate(0.3deg);
+  }
+}
+
+/* Звонок */
+
+.BellSpot {
+  position: relative;
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  align-self: flex-start;
+  width: 130px;
+  margin-left: 48px;
+  padding-top: 44px;
+}
+
+.Bell {
+  position: relative;
+  width: 56px;
+  height: 40px;
+  border-radius: 6px;
+  background-color: var(--text-grey);
+}
+
+.Bell::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 26px;
+  height: 26px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background-color: var(--medium-grey);
+}
+
+.Bell.isRinging {
+  animation: shake 70ms linear 10;
+}
+
+.Bell.isRinging::before {
+  background-color: var(--acid-green);
+}
+
+.bellText {
+  position: absolute;
+  top: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.BellSpot:has(.isRinging) .bellText {
+  opacity: 1;
+}
+
+/* Батарея */
+
+.Radiator {
+  position: relative;
+  display: flex;
+  flex: 0 1 auto;
+  gap: 6px;
+  min-width: 0;
+  margin-bottom: 28px;
+}
+
+.riser {
+  position: absolute;
+  z-index: 1;
+  left: -52px;
+  bottom: 26px;
+  width: 14px;
+  height: 2000px;
+  background-color: var(--white);
+}
+
+.Radiator::before,
+.Radiator::after {
+  content: '';
+  position: absolute;
+  left: -46px;
+  right: -12px;
+  height: 12px;
+  background-color: var(--white);
+}
+
+.Radiator::before {
+  top: 26px;
+}
+
+.Radiator::after {
+  bottom: 26px;
+}
+
+.section {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 0 1 auto;
+  align-items: flex-end;
+  justify-content: center;
+  width: 42px;
+  min-width: 0;
+  height: 184px;
+  padding-bottom: 12px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--medium-grey);
+  background-color: var(--white);
+  touch-action: manipulation;
+  transition: background-color 300ms, transform 120ms;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 44px;
+  bottom: 44px;
+  left: 50%;
+  width: 10px;
+  transform: translateX(-50%);
+  border-radius: 5px;
+  background-color: var(--text-grey);
+}
+
+.section:hover {
+  background-color: #f2f2f2;
+}
+
+.section.isHit {
+  background-color: var(--acid-green);
+  color: var(--dark-grey);
+  transform: translateY(2px);
+  transition: none;
+}
+
+.section.isHit::before {
+  background-color: var(--dark-green);
+}
+
+/* Батарея соседа */
+
+.Radiator.isSmall {
+  flex: none;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.Radiator.isSmall::before {
+  top: 16px;
+  height: 8px;
+}
+
+.Radiator.isSmall::after {
+  bottom: 16px;
+  height: 8px;
+}
+
+.Radiator.isSmall .section {
+  z-index: 2;
+  width: 28px;
+  height: 92px;
+  padding: 0;
+  border-radius: 9px;
+  background-color: #dcdcdc;
+}
+
+.Radiator.isSmall .section::before {
+  top: 26px;
+  bottom: 26px;
+  width: 6px;
+  background-color: #c4c4c4;
+}
+
+/* Магнитофон */
+
+.Player {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.deck {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 214px;
+  padding: 12px;
+  border-radius: 10px;
+  background-color: #1c1c1c;
+}
+
+.cassette {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 7px 10px 9px;
+  border-radius: 6px;
+  background-color: #3d3d3d;
+}
+
+.tapeLabel {
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  background-color: var(--text-grey);
+}
+
+.reels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30px;
+}
+
+.reel {
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--grey);
+  border-radius: 50%;
+  background: conic-gradient(var(--grey) 0 9%, transparent 9% 33%, var(--grey) 33% 42%, transparent 42% 66%, var(--grey) 66% 75%, transparent 75%);
+  animation: spin 1.6s linear infinite paused;
+}
+
+.Player.isPlaying .reel {
+  animation-play-state: running;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.deckKeys {
+  display: flex;
+  gap: 8px;
+}
+
+.deckKey {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  border-radius: 4px;
+  border-bottom: 5px solid var(--medium-grey);
+  background-color: var(--text-grey);
+}
+
+.deckKey.isPlay {
+  flex: 2;
+}
+
+.deckKey svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--dark-grey);
+}
+
+.deckKey:hover {
+  filter: brightness(92%);
+}
+
+.deckKey:active,
+.Player.isPlaying .isPlay {
+  border-bottom-width: 2px;
+  transform: translateY(3px);
+}
+
+.Player.isPlaying .isPlay {
+  background-color: var(--acid-green);
+  border-bottom-color: #3fae1b;
+}
+
+.stool {
+  width: 150px;
+  height: 64px;
+  border-top: 12px solid var(--medium-grey);
+  background: linear-gradient(90deg, transparent 12px, var(--medium-grey) 12px 24px, transparent 24px calc(100% - 24px), var(--medium-grey) calc(100% - 24px) calc(100% - 12px), transparent calc(100% - 12px));
+}
+
+/* Пакет */
+
+.BagSpot {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.Bag {
+  position: relative;
+  width: 104px;
+  height: 124px;
+  touch-action: none;
+}
+
+.bagBody {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 96px;
+  border-radius: 46% 46% 30% 30% / 40% 40% 24% 24%;
+  background-color: var(--text-grey);
+  transform-origin: bottom center;
+  transition: transform 90ms;
+}
+
+.bagBody::before,
+.bagBody::after {
+  content: '';
+  position: absolute;
+  border: 0 solid var(--grey);
+}
+
+.bagBody::before {
+  top: 22px;
+  left: 22px;
+  width: 30px;
+  height: 40px;
+  border-left-width: 2px;
+  border-top-width: 2px;
+  border-radius: 40% 0 0 0;
+  transform: rotate(-12deg);
+}
+
+.bagBody::after {
+  top: 34px;
+  right: 18px;
+  width: 22px;
+  height: 36px;
+  border-right-width: 2px;
+  border-radius: 0 0 40% 0;
+  transform: rotate(14deg);
+}
+
+.bagEars {
+  position: absolute;
+  z-index: 1;
+  top: 2px;
+  left: 50%;
+  width: 42px;
+  height: 40px;
+  transform: translateX(-50%);
+  transition: transform 90ms;
+}
+
+.bagEars::before,
+.bagEars::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 20px;
+  height: 34px;
+  border-radius: 50% 50% 30% 30%;
+  background-color: var(--text-grey);
+}
+
+.bagEars::before {
+  left: 2px;
+  transform: rotate(-22deg);
+}
+
+.bagEars::after {
+  right: 2px;
+  transform: rotate(22deg);
+}
+
+.Bag.isSquished .bagBody {
+  animation: crinkle 140ms infinite alternate;
+}
+
+.Bag.isSquished .bagEars {
+  transform: translate(-50%, 12px);
+}
+
+@keyframes crinkle {
+  from {
+    transform: scale(1.1, 0.84) rotate(-1.5deg);
+  }
+  to {
+    transform: scale(1.06, 0.88) rotate(1.5deg);
+  }
+}
+
+/* Дверь и выключатель */
+
+.DoorSpot {
+  position: relative;
+  flex: none;
+  padding-left: 60px;
+}
+
+.Switch {
+  position: absolute;
+  left: 0;
+  top: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 58px;
+  border-radius: 6px;
+  background-color: var(--text-grey);
+}
+
+.switchKey {
+  width: 16px;
+  height: 26px;
+  border: 2px solid var(--medium-grey);
+  border-radius: 3px;
+  background-color: var(--white);
+  transform: translateY(6px);
+  transition: transform 120ms, background-color 120ms;
+}
+
+.Switch.isOn .switchKey {
+  background-color: var(--acid-green);
+  transform: translateY(-6px);
+}
+
+.switchText {
+  position: absolute;
+  z-index: 6;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 13px;
+  color: var(--text-grey);
+}
+
+.switchLed {
+  position: absolute;
+  z-index: 6;
+  top: 5px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 50%;
+  background-color: #ff2e2e;
+  box-shadow: 0 0 6px 2px rgba(255, 46, 46, 0.75);
+  animation: led 2.4s ease-in-out infinite;
+}
+
+.Switch.isOn .switchLed {
+  background-color: #5c5c5c;
+  box-shadow: none;
+  animation: none;
+}
+
+@keyframes led {
+  50% {
+    box-shadow: 0 0 10px 4px rgba(255, 46, 46, 0.9);
+  }
+}
+
+/* Пыль и камни */
+
+.Debris {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.dust,
+.stone {
+  position: absolute;
+  top: 0;
+}
+
+.dust {
+  border-radius: 50%;
+  background-color: var(--white);
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+}
+
+.stone {
+  border-radius: 40% 60% 35% 65% / 55% 40% 60% 45%;
+  background-color: #9a9a9a;
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.25);
+}
+
+/* Подсказки */
+
+.Keys {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 24px;
+  max-width: 1180px;
+  margin: 16px auto 0;
+  font-size: 14px;
+}
+
+.Keys b {
+  font-weight: 700;
+}
+
+/* Средний экран */
+
+@media (max-width: 1180px) {
+  .Pan {
+    --k: 0.86;
+  }
+
+  .BellSpot {
+    margin-left: 0;
+  }
+}
+
+/* Планшет и телефон */
+
+@media (max-width: 980px) {
+  .WallTop {
+    flex-wrap: wrap;
+    height: auto;
+    padding-top: 8px;
+  }
+
+  .Pans {
+    flex-basis: 100%;
+  }
+
+  .Shelf {
+    margin-left: auto;
+  }
+
+  .BellSpot {
+    align-self: flex-end;
+    padding-top: 0;
+  }
+
+  .WallBottom {
+    flex-wrap: wrap;
+  }
+
+  .Radiator:not(.isSmall) {
+    flex: 1 1 100%;
+  }
+
+  .WallBottom .section {
+    flex: 1 1 0;
+    width: auto;
+  }
+}
+
+@media (max-width: 720px) {
+  body {
+    padding: 20px 12px 24px;
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+
+  .Title p {
+    font-size: 16px;
+  }
+
+  .Upstairs {
+    gap: 12px;
+    height: 150px;
+    padding-left: 56px;
+    padding-right: 12px;
+  }
+
+  .upWindow,
+  .Radiator.isSmall {
+    display: none;
+  }
+
+  .NeighborSpot {
+    width: 208px;
+    height: 98px;
+  }
+
+  .bubble {
+    font-size: 13px;
+  }
+
+  .Upstairs[data-state='stand'] .bubble,
+  .Upstairs[data-state='drill'] .bubble {
+    left: 70px;
+    top: -36px;
+  }
+
+  .Upstairs[data-state='sit'] .bubble {
+    left: 70px;
+    top: -30px;
+  }
+
+  .Upstairs[data-state='sleep'] .bubble {
+    left: 0;
+    top: 0;
+  }
+
+  .Door.isSmall {
+    width: 64px;
+    height: 110px;
+  }
+
+  .Pan {
+    --k: 0.62;
+  }
+
+  .panTitle {
+    font-size: 13px;
+  }
+
+  .WallTop {
+    gap: 12px;
+    padding: 4px 12px 12px 56px;
+  }
+
+  .Shelf {
+    width: 150px;
+    margin-left: 0;
+  }
+
+  .Drill {
+    transform: scale(0.8);
+  }
+
+  .plank {
+    width: 150px;
+  }
+
+  .BellSpot {
+    width: auto;
+    margin-left: auto;
+  }
+
+  .WallBottom {
+    gap: 20px 12px;
+    padding: 24px 12px 0 56px;
+  }
+
+  .riser {
+    left: -34px;
+  }
+
+  .Radiator::before,
+  .Radiator::after {
+    left: -30px;
+  }
+
+  .Radiator {
+    gap: 4px;
+  }
+
+  .WallBottom .section {
+    height: 140px;
+    border-radius: 9px;
+    font-size: 12px;
+  }
+
+  .WallBottom .section::before {
+    top: 34px;
+    bottom: 34px;
+    width: 6px;
+  }
+
+  .deck {
+    width: 176px;
+    padding: 10px;
+  }
+
+  .reels {
+    padding: 0 18px;
+  }
+
+  .stool {
+    width: 120px;
+    height: 40px;
+  }
+
+  .Bag {
+    width: 84px;
+    height: 104px;
+  }
+
+  .bagBody {
+    height: 80px;
+  }
+
+  .DoorSpot {
+    margin-left: auto;
+    padding-left: 50px;
+  }
+
+  .Door {
+    width: 80px;
+    height: 176px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Home.isKnocking,
+  .Bag.isSquished .bagBody,
+  .Drill.isOn,
+  .Bell.isRinging,
+  .Door.isRinging .leaf,
+  .Upstairs.isDrilling .hisDrill,
+  .Upstairs.isKnocking .broom,
+  .switchLed,
+  .reel {
+    animation: none;
+  }
+
+  .Debris {
+    display: none;
+  }
+}

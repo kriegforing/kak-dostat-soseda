@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Как достать соседа</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://unpkg.com/tone@15.1.22/build/Tone.js"></script>
+    <script src="js/score.js" defer></script>
+    <script src="js/sounds.js" defer></script>
+    <script src="js/player.js" defer></script>
+    <script src="js/interface.js" defer></script>
+  </head>
+
+  <body>
+    <header class="Top">
+      <div class="Title">
+        <h1>Как достать соседа</h1>
+        <p>Суббота, 9:00. Пьеса в пяти частях для батареи, сковородок, пакета с мусором, перфоратора и соседа сверху</p>
+      </div>
+    </header>
+
+    <main class="Building" id="building">
+      <!-- Сосед сверху -->
+      <section class="Upstairs" id="upstairs" data-state="sleep" aria-label="Квартира соседа">
+        <div class="upWindow"></div>
+
+        <div class="Radiator isSmall">
+          <div class="section"></div>
+          <div class="section"></div>
+          <div class="section"></div>
+          <div class="section"></div>
+          <div class="section"></div>
+        </div>
+
+        <div class="NeighborSpot">
+          <div class="bubble" id="bubble">Хр-р-р…</div>
+
+          <svg class="Neighbor" viewBox="0 0 320 150" aria-hidden="true">
+            <!-- Диван -->
+            <rect x="16" y="60" width="214" height="46" rx="12" fill="#6e6e6e" />
+            <rect x="16" y="98" width="214" height="34" rx="8" fill="#7f7f7f" />
+            <rect x="4" y="82" width="28" height="50" rx="10" fill="#5f5f5f" />
+            <rect x="214" y="82" width="28" height="50" rx="10" fill="#5f5f5f" />
+            <rect x="22" y="132" width="8" height="18" fill="#4a4a4a" />
+            <rect x="216" y="132" width="8" height="18" fill="#4a4a4a" />
+
+            <!-- Спит -->
+            <g class="pose poseSleep" fill="#262626">
+              <circle cx="46" cy="86" r="13" />
+              <rect x="58" y="80" width="146" height="20" rx="10" />
+              <rect x="74" y="74" width="134" height="26" rx="12" fill="#d6d6d6" />
+            </g>
+
+            <!-- Сидит -->
+            <g class="pose poseSit" fill="#262626">
+              <circle cx="170" cy="40" r="13" />
+              <rect x="157" y="55" width="26" height="48" rx="12" />
+              <rect x="160" y="88" width="46" height="15" rx="7" />
+              <rect x="193" y="92" width="14" height="58" rx="7" />
+            </g>
+
+            <!-- Со шваброй -->
+            <g class="pose poseStand" fill="#262626">
+              <circle cx="270" cy="28" r="13" />
+              <rect x="257" y="43" width="26" height="52" rx="12" />
+              <rect x="259" y="88" width="10" height="62" rx="5" />
+              <rect x="272" y="88" width="10" height="62" rx="5" />
+              <rect x="276" y="52" width="26" height="9" rx="4" />
+              <g class="broom">
+                <rect x="298" y="18" width="5" height="120" rx="2" fill="#5c5c5c" />
+                <rect x="288" y="134" width="26" height="14" rx="3" fill="#5c5c5c" />
+              </g>
+            </g>
+
+            <!-- С перфоратором -->
+            <g class="pose poseDrill" fill="#262626">
+              <circle cx="270" cy="28" r="13" />
+              <rect x="257" y="43" width="26" height="52" rx="12" />
+              <rect x="259" y="88" width="10" height="62" rx="5" />
+              <rect x="272" y="88" width="10" height="62" rx="5" />
+              <rect x="276" y="58" width="22" height="9" rx="4" />
+              <g class="hisDrill">
+                <rect x="290" y="50" width="18" height="40" rx="6" fill="#e1e1e1" />
+                <rect x="296" y="90" width="6" height="12" fill="#5c5c5c" />
+                <rect x="298" y="102" width="2" height="48" />
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        <div class="Door isSmall" id="neighborDoor"><div class="leaf"></div></div>
+      </section>
+
+      <!-- Перекрытие -->
+      <div class="Slab">
+        <svg class="crackSvg" viewBox="0 0 1180 30" preserveAspectRatio="xMinYMid slice" aria-hidden="true">
+          <path
+            class="crack"
+            id="crack"
+            pathLength="100"
+            d="M 60 3 L 92 12 L 118 8 L 160 18 L 214 13 L 262 22 L 318 16 L 384 25 L 450 18 L 522 26 L 600 19 L 690 27 L 776 20 L 872 26 L 980 21 L 1180 27"
+          />
+        </svg>
+      </div>
+
+      <!-- Мы -->
+      <section class="Home isMuted" id="home" aria-label="Наша квартира">
+        <div class="WallTop">
+          <!-- Сковородки -->
+          <div class="Pans">
+            <div class="Pan" style="--size: 84px" data-param="ring" data-value="0.3333" data-note="G2" data-key="Digit1">
+              <button class="panBody" type="button" aria-label="Сковородка «Звон»"><span class="panHandle"></span></button>
+              <div class="panTitle">Звон</div>
+              <div class="keyHint">1</div>
+            </div>
+
+            <div class="Pan" style="--size: 76px" data-param="echo" data-value="0.3" data-note="Ab2" data-key="Digit2">
+              <button class="panBody" type="button" aria-label="Сковородка «Эхо подъезда»"><span class="panHandle"></span></button>
+              <div class="panTitle">Эхо подъезда</div>
+              <div class="keyHint">2</div>
+            </div>
+
+            <div class="Pan" style="--size: 68px" data-param="brightness" data-value="0.5" data-note="Bb2" data-key="Digit3">
+              <button class="panBody" type="button" aria-label="Сковородка «Яркость»"><span class="panHandle"></span></button>
+              <div class="panTitle">Яркость</div>
+              <div class="keyHint">3</div>
+            </div>
+
+            <div class="Pan" style="--size: 60px" data-param="anger" data-value="0.1" data-note="C3" data-key="Digit4">
+              <button class="panBody" type="button" aria-label="Сковородка «Злость»"><span class="panHandle"></span></button>
+              <div class="panTitle">Злость</div>
+              <div class="keyHint">4</div>
+            </div>
+          </div>
+
+          <!-- Перфоратор -->
+          <div class="Shelf">
+            <button class="Drill" id="drill" type="button" aria-label="Перфоратор: нажать и держать">
+              <span class="drillBody"></span>
+              <span class="drillGrip"></span>
+              <span class="drillChuck"></span>
+              <span class="drillBit"></span>
+            </button>
+            <div class="plank"></div>
+            <div class="keyHint">Z</div>
+          </div>
+
+          <!-- Звонок -->
+          <div class="BellSpot">
+            <div class="bellText">Дзынь-дон!</div>
+            <button class="Bell" id="bell" type="button" aria-label="Дверной звонок"></button>
+            <div class="keyHint">B</div>
+          </div>
+        </div>
+
+        <div class="WallBottom">
+          <!-- Батарея -->
+          <div class="Radiator">
+            <div class="riser"></div>
+            <button class="section" type="button" data-note="F4" data-key="KeyA">A</button>
+            <button class="section" type="button" data-note="G4" data-key="KeyS">S</button>
+            <button class="section" type="button" data-note="Ab4" data-key="KeyD">D</button>
+            <button class="section" type="button" data-note="Bb4" data-key="KeyF">F</button>
+            <button class="section" type="button" data-note="C5" data-key="KeyG">G</button>
+            <button class="section" type="button" data-note="D5" data-key="KeyH">H</button>
+            <button class="section" type="button" data-note="Eb5" data-key="KeyJ">J</button>
+            <button class="section" type="button" data-note="F5" data-key="KeyK">K</button>
+            <button class="section" type="button" data-note="G5" data-key="KeyL">L</button>
+            <button class="section" type="button" data-note="Ab5" data-key="Semicolon">;</button>
+          </div>
+
+          <!-- Магнитофон -->
+          <div class="Player" id="player">
+            <div class="deck">
+              <div class="cassette">
+                <div class="tapeLabel">Суббота, 9:00</div>
+                <div class="reels"><span class="reel"></span><span class="reel"></span></div>
+              </div>
+              <div class="deckKeys">
+                <button class="deckKey isPlay" id="playButton" type="button" aria-label="Играть пьесу">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 1.5 L14 8 L3 14.5 Z" /></svg>
+                </button>
+                <button class="deckKey" id="stopButton" type="button" aria-label="Стоп">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="3" y="3" width="10" height="10" /></svg>
+                </button>
+              </div>
+            </div>
+            <div class="stool"></div>
+          </div>
+
+          <!-- Пакет -->
+          <div class="BagSpot">
+            <div class="keyHint">Пробел</div>
+            <button class="Bag" id="bag" type="button" aria-label="Пакет с мусором: нажать и держать">
+              <span class="bagEars"></span>
+              <span class="bagBody"></span>
+            </button>
+          </div>
+
+          <!-- Дверь -->
+          <div class="DoorSpot">
+            <button class="Switch" id="soundSwitch" type="button" aria-pressed="false" aria-label="Звук">
+              <span class="switchLed"></span>
+              <span class="switchKey"></span>
+              <span class="switchText">звук</span>
+            </button>
+            <div class="Door" id="door"><div class="leaf"></div></div>
+          </div>
+        </div>
+
+        <!-- Пыль и камни -->
+        <div class="Debris" id="debris"></div>
+      </section>
+    </main>
+
+    <footer class="Keys">
+      <span><b>A S D F G H J K L ;</b> батарея</span>
+      <span><b>1 2 3 4</b> сковородки, ручку крутить по кругу</span>
+      <span><b>Пробел</b> пакет</span>
+      <span><b>Z</b> перфоратор</span>
+      <span><b>B</b> звонок</span>
+    </footer>
+  </body>
+</html>
